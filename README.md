@@ -8,8 +8,8 @@ Clone the repo and copy a skill folder into your agent's skills directory:
 
 ```sh
 git clone https://github.com/bragboy/skills.git
-cp -R skills/skills/assume-reviewer ~/.claude/skills/   # Claude Code
-cp -R skills/skills/assume-reviewer ~/.codex/skills/    # Codex
+cp -R skills/assume-reviewer ~/.claude/skills/   # Claude Code
+cp -R skills/assume-reviewer ~/.codex/skills/    # Codex
 ```
 
 Then invoke it by name, for example `/assume-reviewer` in Claude Code.
