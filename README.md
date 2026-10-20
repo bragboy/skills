@@ -12,7 +12,7 @@ cp -R skills/<skill-name> ~/.claude/skills/   # Claude Code
 cp -R skills/<skill-name> ~/.codex/skills/    # Codex
 ```
 
-Then invoke it by name, for example `/assume-reviewer` or `/meeting-video-to-doc` in Claude Code.
+Then invoke it by name, for example `/keep-brewing` in Claude Code.
 
 ## Skills
 
@@ -43,3 +43,11 @@ Before writing, it shows you a map of the meeting's sections and asks:
 - **Screenshot Budget:** roughly how many images to include.
 
 It never makes up what was on screen. Anything it could not read clearly is marked as unverified, and the document ends with a caveats section. Needs `ffmpeg` installed.
+
+### Keep Brewing
+
+Keeps the agent working in the foreground for the rest of the session. It never starts a job in the background and ends its turn. It runs commands directly, or waits on long jobs in chunks of a few minutes with a short progress update in between, until everything (including subagents) has finished.
+
+Why: some tools keep your computer awake only while an agent is working, such as the "until agents finish" mode of the caffeine cup in [Herdr](https://github.com/penso/herdr-gpui). An agent that ends its turn with a job still running in the background looks idle, so your computer can go to sleep in the middle of the job. With this skill on, the computer stays awake exactly as long as the work runs, and no longer.
+
+To stop a stuck job from keeping the computer awake forever, it waits at most 2 hours on any one job, then asks you whether to keep waiting or kill it.
