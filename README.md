@@ -51,3 +51,16 @@ Keeps the agent working in the foreground for the rest of the session. It never 
 Why: some tools keep your computer awake only while an agent is working, such as the "until agents finish" mode of the caffeine cup in [Herdr](https://github.com/penso/herdr-gpui). An agent that ends its turn with a job still running in the background looks idle, so your computer can go to sleep in the middle of the job. With this skill on, the computer stays awake exactly as long as the work runs, and no longer.
 
 To stop a stuck job from keeping the computer awake forever, it waits at most 2 hours on any one job, then asks you whether to keep waiting or kill it.
+
+### Compact Prep
+
+For long sessions that are about to run out of context. When you invoke it, the agent gets the session ready for compaction, so nothing important is lost when the conversation is summarized.
+
+It writes the current state to `.claude/handoff/` in your repo (kept out of git through `.git/info/exclude`):
+
+- **`HANDOFF.md`:** rewritten each time, so it always shows the goal, what is done, what is next, key files and commands, gotchas, and loose ends like uncommitted changes or running jobs.
+- **`decisions.md`:** an append-only log of decisions and the reasons for them, so earlier ones survive repeated handoffs.
+
+Only lasting facts, like your preferences, corrections you gave it, and project constraints, go into the agent's memory. If the agent has no memory system, they go at the top of `HANDOFF.md` instead. If something is unclear, such as an open decision or uncommitted work, it first asks you up to 3-4 quick questions. It never commits, stashes or kills anything by itself.
+
+At the end it copies a short continuation prompt to your clipboard and suggests a `/compact` command with a focus hint. Run the compaction, paste the prompt, and the agent picks up where it left off. You can run it as many times as you like in one session. It never tracks context size or nags you to run it.
