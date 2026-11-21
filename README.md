@@ -64,3 +64,11 @@ It writes the current state to `.claude/handoff/` in your repo (kept out of git 
 Only lasting facts, like your preferences, corrections you gave it, and project constraints, go into the agent's memory. If the agent has no memory system, they go at the top of `HANDOFF.md` instead. If something is unclear, such as an open decision or uncommitted work, it first asks you up to 3-4 quick questions. It never commits, stashes or kills anything by itself.
 
 At the end it copies a short continuation prompt to your clipboard and suggests a `/compact` command with a focus hint. Run the compaction, paste the prompt, and the agent picks up where it left off. You can run it as many times as you like in one session. It never tracks context size or nags you to run it.
+
+### Change Bypass Color
+
+Claude Code only. In bypass permissions mode, Claude Code shows a bright red "bypass permissions on" label under the prompt, and no setting, theme or mod can change just that label. This skill patches your own Claude Code binary so the label draws in a neutral gray (`#888`), or any short color you pass, such as `/change-bypass-color #999`.
+
+It works on a copy first: a small Go program rewrites the label's color in the bundled source and makes Bun compile that one file from source instead of its precompiled bytecode. The script then re-signs the copy, starts it in a hidden terminal to check that the label is no longer red and nothing failed to load, and only then swaps it in. The original binary is kept beside it as `<version>.orig`.
+
+Every Claude Code update brings the red label back. Run the skill again, then `/restart`. If an update changes Claude Code's internals, it stops without installing anything and says where to look. Needs macOS (Apple Silicon or Intel), Claude Code's native installer (`~/.local/bin/claude`), and Go.
