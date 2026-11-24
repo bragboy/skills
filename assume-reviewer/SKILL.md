@@ -19,7 +19,7 @@ Then confirm the goal in one line and break it into small, independent tasks.
 
 ## Loop
 
-1. Delegate each task to a subagent. Prompt: goal, relevant paths, constraints, done criteria. Ask for a short report back: files changed, what was verified, open issues. No file dumps.
+1. Delegate each task to a subagent at **medium** effort (pass `effort: "medium"`), unless the user asks for another level for that task. Prompt: goal, relevant paths, constraints, done criteria. Ask for a short report back: files changed, what was verified, open issues. No file dumps.
 2. Review per the chosen depth. Reject or send back with concrete fixes if wrong.
 3. Integrate per the chosen mode. Commit messages: one line of intent, no attribution.
 4. Keep a running ledger in the thread: done / in progress / next / decisions. Update it after every task, so it survives context compaction.
