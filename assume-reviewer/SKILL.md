@@ -40,17 +40,17 @@ Keep status files out of git: in a git repo, add `.agent-status/` to `.git/info/
 >   - [x] 2. <step> (11 min)
 >   - [ ] 7. <step> (running)
 >   - [ ] 8. <step>
->   eta: about <N> min left (<one line on why, e.g. "the test suite takes 8 min">)
+>   eta: about <N> min left (<the arithmetic, e.g. "3 steps x 6 min average so far + 4 min test suite">)
 >   waiting on: <command or process, with PID and log path if it runs in the background, else nothing>
 >   blocked: <no, or what blocks you>
 >   ```
->   Take every time from the clock (`date -u +%FT%TZ`, or `TZ=Asia/Kolkata date` for local time) when you write it; never estimate or invent a timestamp. A step's duration is the difference between two clock readings. Each finished step carries how long it took. The estimate is your honest guess from the steps so far and what is left; revise it at every update.
+>   Take every time from the clock (`date -u +%FT%TZ`, or `TZ=Asia/Kolkata date` for local time) when you write it; never estimate or invent a timestamp. A step's duration is the difference between two clock readings. Each finished step carries how long it took. The estimate is computed, never a gut feeling: the average duration of your finished steps times the steps left, plus, for long commands still ahead, how long that command actually took when you ran it (or a quick measured run), not a padded guess. Agents work several times faster than human-paced intuition suggests, so do not add safety margins; show the arithmetic in the `eta` line and revise it at every update.
 > - Never leave a background process running unattended: give long commands a timeout, and record background PIDs in the file. Before you finish, stop every process you started.
 > - Delete the file just before you send your final report.
 
 ## When the user asks what an agent is doing
 
-Read its status file and answer from it in one or two lines: which step of how many it is on, what that step is and how long it has been running, and the estimate left. For example: "Step 7 of 12, porting the scroll animations, running 6 min; about 25 min left." Do not message the agent for a progress report, and do not read its transcript. If the file is missing while the agent is still running, say so and fall back to cheap signals: recent commits and recently modified files in its worktree.
+Read its status file and answer from it in one or two lines: which step of how many it is on, what that step is and how long it has been running, and the estimate left. For example: "Step 7 of 12, porting the scroll animations, running 6 min; about 25 min left." If an agent's `eta` has no arithmetic, or past agents in the session finished much sooner than they estimated, say so and give your own estimate from its measured step times. Do not message the agent for a progress report, and do not read its transcript. If the file is missing while the agent is still running, say so and fall back to cheap signals: recent commits and recently modified files in its worktree.
 
 ## Stuck agents
 
