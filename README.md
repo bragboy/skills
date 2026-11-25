@@ -27,6 +27,8 @@ At the start it asks you how to work:
 - **Parallelism:** one task at a time, or several at once when they are independent.
 - **Review Depth:** skim the summary, read the diff, or read the diff and run the tests.
 
+Each subagent keeps a small status file (`.agent-status/<task>.md`, kept out of git) with what it is doing now, what is done, what is next and what it is waiting on, and deletes it when it reports back. When you ask what an agent is doing, the lead answers from that file instead of interrupting the agent. The file also shows when an agent is stuck: if it has not changed for a while and the process it says it is waiting on is gone, the lead nudges the agent once, then stops it and relaunches the rest of the work, and tells you why, instead of waiting forever.
+
 It keeps a running list of what is done, in progress and next, and ends with a summary of what landed, what was rejected and what is left.
 
 ### Meeting Video to Doc
@@ -46,9 +48,9 @@ It never makes up what was on screen. Anything it could not read clearly is mark
 
 ### Keep Brewing
 
-Keeps the agent working in the foreground for the rest of the session. It never starts a job in the background and ends its turn. It runs commands directly, or waits on long jobs in chunks of a few minutes with a short progress update in between, until everything (including subagents) has finished.
+Keeps shell jobs in the foreground for the rest of the session. The agent never starts a build, upload or test run in the background and then ends its turn. It runs commands directly, or waits on long jobs in chunks of a few minutes with a short progress update in between. Subagents are different: a running subagent already counts as work, so the agent starts them, ends its turn and comes back when they report, without watching them.
 
-Why: some tools keep your computer awake only while an agent is working, such as the "until agents finish" mode of the caffeine cup in [Herdr](https://github.com/penso/herdr-gpui). An agent that ends its turn with a job still running in the background looks idle, so your computer can go to sleep in the middle of the job. With this skill on, the computer stays awake exactly as long as the work runs, and no longer.
+Why: some tools keep your computer awake only while an agent is working, such as the "until agents finish" mode of the caffeine cup in [Herdr](https://github.com/penso/herdr-gpui). A running subagent counts, but a background shell command does not: once the turn ends, nothing is working as far as the tool can tell, so your computer can go to sleep in the middle of the job. With this skill on, the computer stays awake exactly as long as the work runs, and no longer.
 
 To stop a stuck job from keeping the computer awake forever, it waits at most 2 hours on any one job, then asks you whether to keep waiting or kill it.
 
