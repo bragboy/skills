@@ -28,15 +28,29 @@ Keep status files out of git: in a git repo, add `.agent-status/` to `.git/info/
 
 ## Status file (paste into every subagent prompt)
 
-> Keep a status file at `.agent-status/<task-name>.md` at the root of your working tree (your worktree, or the shared tree), creating the folder if needed. It is for the lead, not for you: keep it under 15 lines and overwrite it, never append.
-> - Update it when you start, at each milestone (a step finished, a commit, a test run started or finished), and before and after any command that may take more than a minute.
-> - Contents: `updated:` (ISO time), `step:` (what you are doing now, one line), `done:` (short list), `next:` (one line), `waiting on:` (the command or process you are waiting for, with its PID and log path if it runs in the background, else `nothing`), `blocked:` (`no`, or what blocks you).
+> Keep a status file at `.agent-status/<task-name>.md` at the root of your working tree (your worktree, or the shared tree), creating the folder if needed. It is for the lead, not for you: keep it short and overwrite it, never append.
+> - Start it with your own plan as numbered steps. You choose the steps and may change them as you learn more (add, split, merge, drop); the total is whatever it is now.
+> - Update it when you start, whenever a step finishes or the plan changes, and before and after any command that may take more than a minute.
+> - Format:
+>   ```
+>   updated: <ISO time>   started: <ISO time>
+>   step: 7 of 12 - <what step 7 is>, running since <ISO time>
+>   steps:
+>   - [x] 1. <step> (4 min)
+>   - [x] 2. <step> (11 min)
+>   - [ ] 7. <step> (running)
+>   - [ ] 8. <step>
+>   eta: about <N> min left (<one line on why, e.g. "the test suite takes 8 min">)
+>   waiting on: <command or process, with PID and log path if it runs in the background, else nothing>
+>   blocked: <no, or what blocks you>
+>   ```
+>   Each finished step carries how long it took. The estimate is your honest guess from the steps so far and what is left; revise it at every update.
 > - Never leave a background process running unattended: give long commands a timeout, and record background PIDs in the file. Before you finish, stop every process you started.
 > - Delete the file just before you send your final report.
 
 ## When the user asks what an agent is doing
 
-Read its status file and answer from it (one or two lines). Do not message the agent for a progress report, and do not read its transcript. If the file is missing while the agent is still running, say so and fall back to cheap signals: recent commits and recently modified files in its worktree.
+Read its status file and answer from it in one or two lines: which step of how many it is on, what that step is and how long it has been running, and the estimate left. For example: "Step 7 of 12, porting the scroll animations, running 6 min; about 25 min left." Do not message the agent for a progress report, and do not read its transcript. If the file is missing while the agent is still running, say so and fall back to cheap signals: recent commits and recently modified files in its worktree.
 
 ## Stuck agents
 
