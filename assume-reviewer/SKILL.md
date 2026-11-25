@@ -44,7 +44,7 @@ Keep status files out of git: in a git repo, add `.agent-status/` to `.git/info/
 >   waiting on: <command or process, with PID and log path if it runs in the background, else nothing>
 >   blocked: <no, or what blocks you>
 >   ```
->   Each finished step carries how long it took. The estimate is your honest guess from the steps so far and what is left; revise it at every update.
+>   Take every time from the clock (`date -u +%FT%TZ`, or `TZ=Asia/Kolkata date` for local time) when you write it; never estimate or invent a timestamp. A step's duration is the difference between two clock readings. Each finished step carries how long it took. The estimate is your honest guess from the steps so far and what is left; revise it at every update.
 > - Never leave a background process running unattended: give long commands a timeout, and record background PIDs in the file. Before you finish, stop every process you started.
 > - Delete the file just before you send your final report.
 
